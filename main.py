@@ -15,14 +15,17 @@ def main():
     dt = 0
    
     # Create Groups
+    all_sprites = pygame.sprite.Group()
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids  = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     
     #Set containers for all classes
-    Player.containers = (updatable, drawable)
-    Asteroid.containers = (asteroids, updatable, drawable)
+    Player.containers = (all_sprites, updatable, drawable)
+    Asteroid.containers = (all_sprites, asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
+    Shot.containers = (all_sprites, shots, updatable, drawable)
 
     #create player and asteroid field instances
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT /2)
