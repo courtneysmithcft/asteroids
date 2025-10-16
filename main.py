@@ -7,6 +7,7 @@ from circleshape import *
 from player import *
 from asteroid import *
 from asteroidfield import *
+from shot import *
 
 
 def main():
@@ -24,13 +25,14 @@ def main():
     #Set containers for all classes
     Player.containers = (all_sprites, updatable, drawable)
     Asteroid.containers = (all_sprites, asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
+    AsteroidField.containers = (updatable,)
     Shot.containers = (all_sprites, shots, updatable, drawable)
 
     #create player and asteroid field instances
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT /2)
     asteroid_field = AsteroidField()
     
+
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -43,13 +45,18 @@ def main():
             
         #Update all updatable objects   
         updatable.update(dt)
-
+        
         #Check for collisions
         for asteroid in asteroids:
             if asteroid.is_colliding(player):
                 print("Game over!")
                 raise SystemExit
 
+            
+            for shot in shots:
+                if asteroid.is_colliding(shot):
+                    asteroid.split()
+                    shot.kill()
         
         #Set game backgrould
         screen.fill("black")
